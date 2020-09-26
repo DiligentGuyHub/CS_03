@@ -105,7 +105,35 @@ namespace OOP_Lab_03
                 Console.Write('\n');
             }
             Console.WriteLine($"Издательство: {editors}\nГод издания: {year}\nКоличество страниц: {pages}\nЦена: {cost}\nПереплет: {type}");
-        }  
+        }
+
+        public static void FindByAuthor(Book[] shelf, string auth)
+        {
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.WriteLine($"По автору: {auth}");
+            foreach (Book book in shelf)
+            {
+                foreach (string name in book.Authors)
+                {
+                    if (name == auth) Console.WriteLine($"- '{book.Name}' {book.Year}");
+                }
+            }
+        }
+
+        public static void PublishedAfterYear(Book[] shelf, ref int year)
+        {
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.WriteLine($"Издано после {year} года:");
+            foreach (Book book in shelf)
+            {
+                if (book.Year > year) Console.WriteLine($" {book.Authors[0]} - '{book.Name}' {book.Year}");
+            }
+        }
+        public static void ChangeCost(out Book newbook, Book book, double cost)
+        {
+            newbook = book;
+            newbook.Cost = cost;
+        }
     }
 
     public partial class Person
@@ -124,33 +152,7 @@ namespace OOP_Lab_03
     class Program
     {
 
-        static void FindByAuthor(Book[] shelf, string auth)
-        {
-            Console.WriteLine("---------------------------------------------------------------------------------");
-            Console.WriteLine($"По автору: {auth}");
-            foreach (Book book in shelf)
-            {
-                foreach (string name in book.Authors)
-                {
-                    if (name == auth) Console.WriteLine($"- '{book.Name}' {book.Year}");
-                }
-            }
-        }
-
-        static void PublishedAfterYear(Book[] shelf, ref int year)
-        {
-            Console.WriteLine("---------------------------------------------------------------------------------");
-            Console.WriteLine($"Издано после {year} года:");
-            foreach (Book book in shelf)
-            {
-                if(book.Year > year) Console.WriteLine($" {book.Authors[0]} - '{book.Name}' {book.Year}");
-            }
-        }
-        static void ChangeCost(out Book newbook, Book book, double cost)
-        {
-            newbook = book;
-            newbook.Cost = cost;
-        }
+        
         static void Main(string[] args)
         {
 
@@ -164,7 +166,7 @@ namespace OOP_Lab_03
             Book[] myshelf = new Book[7];
             myshelf[0] = new Book(12, "Путь Воина", "Ямамото Ценэтомо", "Japanese Heritage Books", 1854, 200, 499.99, "Твердый, с декорациями");
             myshelf[1] = new Book(40, "Финансирование", "John Moneyfield", "Economics & Politics Fiction", 1995, 530, 349.99, "Мягкий");
-            ChangeCost(out myshelf[1], myshelf[1], 299.99);
+            Book.ChangeCost(out myshelf[1], myshelf[1], 299.99);
             myshelf[2] = new Book(84, "Medicine in 2020", "Crystal Blake", "USA Library Organization", 2020, 985, 649.99, "Мягкий");
             myshelf[3] = new Book(52, "Истина бытия", "Ямамото Ценэтомо", "Japanese Heritage Books", 1860, 250, 599.99, "Твердый");
             myshelf[4] = new Book(73, "В поисках себя", "Ямамото Ценэтомо", "Japanese Heritage Books", 1880, 300, 199.99, "Твердый");
@@ -174,9 +176,9 @@ namespace OOP_Lab_03
             {
                 x.GetInfo();
             }
-            FindByAuthor(myshelf, "Ямамото Ценэтомо");
+            Book.FindByAuthor(myshelf, "Ямамото Ценэтомо");
             int year = 1900;
-            PublishedAfterYear(myshelf, ref year);
+            Book.PublishedAfterYear(myshelf, ref year);
             Book.OutAmount();
 
             var three = new { id = 11, name = "Castle Bridge", authors = new string[2] { "John Anderson", "Mathew Machine" }, editors = "United Animated Republic", year = 2020, pages = 100, cost = 1.99, type = "Мягкий" };
